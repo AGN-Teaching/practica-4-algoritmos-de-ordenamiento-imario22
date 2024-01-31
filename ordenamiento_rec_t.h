@@ -1,3 +1,4 @@
+
 void merge(int A[], int inicio, int medio, int fin) {
     int *aux = new int[fin - inicio + 1];
     int i = inicio;     // índice de la primera mitad
@@ -52,11 +53,29 @@ void merge_sort(int A[], int inicio, int fin) {
     }
 }
 
+void merge_sort_is(int A[], int inicio, int fin, int k) {
+    if (inicio < fin) {
+        int medio = (inicio + fin) / 2;
+
+        // Utiliza insertion_sort si el tamaño del subarreglo es menor o igual a k
+        if (medio - inicio + 1 <= k) {
+            insertion_sort(A + inicio, medio - inicio + 1);
+        } else {
+            merge_sort_is(A, inicio, medio, k);
+        }
+
+        if (fin - medio <= k) {
+            insertion_sort(A + medio + 1, fin - medio);
+        } else {
+            merge_sort_is(A, medio + 1, fin, k);
+        }
+
+        merge(A, inicio, medio, fin);
+    }
+}
 
 
-
-
-void intercambiar(int A[], int x, int y) {
+void intercambiar_rec(int A[], int x, int y) {
     int aux = A[x];
     A[x] = A[y];
     A[y] = aux;
@@ -75,12 +94,12 @@ int partition(int A[], int p, int r) {
     for (int i = p; i < r; i++) {
         if (A[i] < pivote) {
             ultimo += 1;
-            intercambiar(A, ultimo, i);
+            intercambiar_rec(A, ultimo, i);
         }
     }
 
     // Y se mueve al pivote a su posición correcta
-    intercambiar(A, ultimo + 1, r);
+    intercambiar_rec(A, ultimo + 1, r);
     return ultimo + 1;
 }
 
@@ -91,3 +110,5 @@ void quicksort(int A[], int p, int r) {
         quicksort(A, q + 1, r);
     }
 }
+
+
