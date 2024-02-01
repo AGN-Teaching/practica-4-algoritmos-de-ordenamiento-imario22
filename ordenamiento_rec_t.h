@@ -1,4 +1,3 @@
-
 void merge(int A[], int inicio, int medio, int fin) {
     int *aux = new int[fin - inicio + 1];
     int i = inicio;     // índice de la primera mitad
